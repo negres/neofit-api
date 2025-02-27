@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_27_213938) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_27_215555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,6 +23,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_27_213938) do
     t.datetime "updated_at", null: false
     t.index ["jti"], name: "index_allowlisted_jwts_on_jti", unique: true
     t.index ["user_id"], name: "index_allowlisted_jwts_on_user_id"
+  end
+
+  create_table "students", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "trainer_id"
+    t.decimal "height"
+    t.decimal "weight"
+    t.date "birth"
+    t.string "goal"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trainer_id"], name: "index_students_on_trainer_id"
+    t.index ["user_id"], name: "index_students_on_user_id"
   end
 
   create_table "trainers", force: :cascade do |t|
@@ -66,5 +79,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_27_213938) do
   end
 
   add_foreign_key "allowlisted_jwts", "users"
+  add_foreign_key "students", "users"
   add_foreign_key "trainers", "users"
 end
